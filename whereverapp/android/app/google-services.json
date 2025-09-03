@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "846471537088",
+    "project_id": "maps-dummy-43082",
+    "storage_bucket": "maps-dummy-43082.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846471537088:android:511dfbed5c3f25aecea825",
+        "android_client_info": {
+          "package_name": "com.example.whereverapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAg35yAr0S-AZ0tzavjMBN75bSSKCO7Bk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
