@@ -3,9 +3,26 @@ import 'package:latlong2/latlong.dart';
 import 'package:whereverapp/main.dart';
 
 class Supabase {
-  Future<void> addPos() async {
+  Future<void> addPos(double lat, double lng, String name) async {
     debugPrint("addddddddd");
-    await supabase.from('maps').insert({'lat': 3.20349, 'lng': 1.2342});
+
+    final data = await supabase.from('maps').select().eq("name", name);
+    if (data.isEmpty) {
+      await supabase.from('maps').insert({
+        'lat': lat,
+        'lng': lng,
+        'name': name,
+      });
+    } else {
+      await supabase
+          .from('maps')
+          .update({
+            'lat': lat,
+            'lng': lng,
+            'updated_at': DateTime.now().toString(),
+          })
+          .eq("name", name);
+    }
   }
 
   Future<List> getPos() async {
@@ -26,8 +43,15 @@ class Supabase {
     return data;
   }
 
-  Future<void> updatePos(int id, double lat, double lng) async {
-    await supabase.from('instruments').update({'name': 'piano'}).eq('id', id);
+  Future<void> updatePos(String name, double lat, double lng) async {
+    await supabase
+        .from('maps')
+        .update({
+          'lat': lat,
+          'lng': lng,
+          'updated_at': DateTime.now().toString(),
+        })
+        .eq("name", name);
   }
 
   Future<void> deletePos() async {

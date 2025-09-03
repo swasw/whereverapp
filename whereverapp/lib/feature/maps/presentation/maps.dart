@@ -16,6 +16,7 @@ class _MapsPageState extends State<MapsPage> {
   final Supabase supabase = Supabase();
   List<Marker> markers = [];
   Timer? timer;
+  LatLng? myPosition;
 
   // 2. Tambahkan MapController untuk mengontrol peta secara programatik
   final MapController _mapController = MapController();
@@ -56,9 +57,28 @@ class _MapsPageState extends State<MapsPage> {
         ),
       ).listen((Position pos) {
         setState(() {
-          var myPosition = LatLng(pos.latitude, pos.longitude);
+          myPosition = LatLng(pos.latitude, pos.longitude);
           debugPrint("Posisi baru: $myPosition");
+          markers.removeWhere(
+            (m) => m.child is Icon && (m.child as Icon).color == Colors.red,
+          );
+          markers.add(
+            Marker(
+              point: myPosition!,
+              child: const Icon(
+                Icons.location_pin,
+                color: Colors.red,
+                size: 40,
+              ),
+            ),
+          );
         });
+
+        supabase.updatePos(
+          "Admin",
+          myPosition!.latitude,
+          myPosition!.longitude,
+        );
       });
     }
   }
@@ -112,6 +132,7 @@ class _MapsPageState extends State<MapsPage> {
       // 3. Update state setelah mendapatkan posisi
       setState(() {
         _currentPosition = LatLng(position.latitude, position.longitude);
+        supabase.addPos(position.latitude, position.longitude, "Admin");
         debugPrint("Posisi didapat: $_currentPosition");
       });
 
@@ -205,10 +226,7 @@ class _MapsPageState extends State<MapsPage> {
           child: Tooltip(
             // Tambahkan Tooltip untuk menampilkan ID saat ditekan lama
             message: "ID: ${item['id']}",
-            child: Text(
-              "📍" + "Aqil".toString(),
-              style: TextStyle(fontSize: 25),
-            ),
+            child: Text("📍 ${item["name"]}", style: TextStyle(fontSize: 25)),
           ),
         );
       }).toList();
