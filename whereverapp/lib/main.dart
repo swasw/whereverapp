@@ -65,6 +65,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  TextEditingController inputName = TextEditingController();
 
   void _incrementCounter() {
     setState(() {
@@ -119,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            TextFormField(controller: inputName),
           ],
         ),
       ),
@@ -128,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  const MapsPage(), // ganti dengan page tujuanmu
+                  MapsPage(name: inputName.text), // ganti dengan page tujuanmu
             ),
           );
         },

@@ -6,7 +6,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:whereverapp/auth.dart';
 
 class MapsPage extends StatefulWidget {
-  const MapsPage({super.key});
+  final String name;
+  const MapsPage({required this.name, super.key});
 
   @override
   State<MapsPage> createState() => _MapsPageState();
@@ -75,7 +76,7 @@ class _MapsPageState extends State<MapsPage> {
         });
 
         supabase.updatePos(
-          "Admin",
+          widget.name,
           myPosition!.latitude,
           myPosition!.longitude,
         );
@@ -132,7 +133,7 @@ class _MapsPageState extends State<MapsPage> {
       // 3. Update state setelah mendapatkan posisi
       setState(() {
         _currentPosition = LatLng(position.latitude, position.longitude);
-        supabase.addPos(position.latitude, position.longitude, "Admin");
+        supabase.addPos(position.latitude, position.longitude, widget.name);
         debugPrint("Posisi didapat: $_currentPosition");
       });
 
